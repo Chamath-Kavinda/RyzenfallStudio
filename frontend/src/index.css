@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #050505;
+  --color-surface: #0b0b12;
+  --color-primary: #a855f7;
+  --color-glow: #c084fc;
+  --color-violet-deep: #7c3aed;
+  --color-text: #f4f4f5;
+  --color-muted: #9f9fa8;
+
+  --shadow-glow: 0 0 24px -4px rgba(168, 85, 247, 0.55);
+  --shadow-glow-lg: 0 0 60px -8px rgba(168, 85, 247, 0.45);
+
+  --text-display: clamp(2.75rem, 6vw, 5rem);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-zinc-900 font-sans antialiased;
+  }
+
+  .dark body {
+    @apply bg-ink text-text;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-white;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-glow);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-gradient-to-r from-glow via-primary to-violet-deep bg-clip-text text-transparent;
+  }
+
+  .glass-card {
+    @apply rounded-2xl border border-zinc-200/70 bg-white/70 backdrop-blur-xl transition-colors;
+  }
+
+  .dark .glass-card {
+    @apply border-white/10 bg-surface/60;
+  }
+
+  .gradient-border {
+    position: relative;
+    background-clip: padding-box;
+  }
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--color-glow), transparent 60%, var(--color-violet-deep));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-medium text-white transition-all hover:bg-glow hover:shadow-[var(--shadow-glow)] focus-visible:shadow-[var(--shadow-glow)];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-primary/40 px-6 py-3 font-medium text-primary transition-all hover:border-primary hover:shadow-[var(--shadow-glow)];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
