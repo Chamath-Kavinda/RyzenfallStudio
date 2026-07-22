@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Projects from "./pages/Projects.jsx";
 import Messages from "./pages/Messages.jsx";
 import Applications from "./pages/Applications.jsx";
+import Users from "./pages/Users.jsx";
 import { toastOptions } from "./lib/toast.js";
 
 function Protected({ children }) {
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/projects" element={<Protected><Projects /></Protected>} />
         <Route path="/messages" element={<Protected><Messages /></Protected>} />
         <Route path="/applications" element={<Protected><Applications /></Protected>} />
+        <Route path="/users" element={<Protected><Users /></Protected>} />
       </Routes>
       <Toaster position="bottom-right" toastOptions={toastOptions} />
     </>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { FiGrid, FiFolder, FiMail, FiInbox, FiLogOut, FiMenu, FiX } from "react-icons/fi";
+import { FiGrid, FiFolder, FiMail, FiInbox, FiUsers, FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import { transcript } from "../data/transcript.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useTheme } from "../hooks/useTheme.js";
@@ -13,6 +13,7 @@ const links = [
   { to: "/projects", label: transcript.nav.projects, icon: FiFolder },
   { to: "/messages", label: transcript.nav.messages, icon: FiMail },
   { to: "/applications", label: transcript.nav.applications, icon: FiInbox },
+  { to: "/users", label: transcript.nav.users, icon: FiUsers },
 ];
 
 export default function DashboardLayout({ children }) {

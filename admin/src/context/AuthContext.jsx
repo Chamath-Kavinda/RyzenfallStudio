@@ -3,6 +3,17 @@ import api from "../lib/api.js";
 
 const AuthContext = createContext(null);
 
+// Decode a JWT payload without verifying — used only to show who is signed in.
+function decodeToken(token) {
+  if (!token) return null;
+  try {
+    const payload = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    return JSON.parse(atob(payload));
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
 
@@ -19,7 +30,7 @@ export function AuthProvider({ children }) {
   };
 
   const value = useMemo(
-    () => ({ token, isAuthenticated: !!token, login, logout }),
+    () => ({ token, admin: decodeToken(token), isAuthenticated: !!token, login, logout }),
     [token]
   );
 

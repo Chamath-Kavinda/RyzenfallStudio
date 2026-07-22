@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiCode, FiPenTool, FiPlay } from "react-icons/fi";
 import { useGSAP } from "@gsap/react";
 import { gsap, prefersReducedMotion } from "../lib/gsap.js";
 import { transcript } from "../data/transcript.js";
 import api from "../lib/api.js";
+import { useWebSocket } from "../hooks/useWebSocket.js";
 import AmbientBackdrop from "../components/AmbientBackdrop.jsx";
 import Reveal from "../components/Reveal.jsx";
 import SectionHeading from "../components/SectionHeading.jsx";
@@ -18,8 +19,14 @@ const serviceIcons = { web: FiCode, design: FiPenTool, game: FiPlay };
 
 export default function Home() {
   const hero = useRef(null);
-  const [featured, setFeatured] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Only projects explicitly marked "Feature on home page" appear here.
+  const featured = useMemo(
+    () => projects.filter((p) => p.featured).slice(0, 6),
+    [projects]
+  );
 
   useGSAP(
     () => {
@@ -44,20 +51,25 @@ export default function Home() {
     let active = true;
     api
       .get("/projects")
-      .then((res) => {
-        if (!active) return;
-        const items = res.data
-          .filter((p) => p.featured)
-          .concat(res.data.filter((p) => !p.featured))
-          .slice(0, 3);
-        setFeatured(items);
-      })
-      .catch(() => active && setFeatured([]))
+      .then((res) => active && setProjects(res.data))
+      .catch(() => active && setProjects([]))
       .finally(() => active && setLoading(false));
     return () => {
       active = false;
     };
   }, []);
+
+  // Keep the featured section live when projects change in the admin.
+  useWebSocket(
+    useCallback(({ type, payload }) => {
+      setProjects((prev) => {
+        if (type === "project:created") return [payload, ...prev.filter((p) => p._id !== payload._id)];
+        if (type === "project:updated") return prev.map((p) => (p._id === payload._id ? payload : p));
+        if (type === "project:deleted") return prev.filter((p) => p._id !== payload._id);
+        return prev;
+      });
+    }, [])
+  );
 
   return (
     <>
