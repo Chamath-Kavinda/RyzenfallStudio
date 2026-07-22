@@ -12,6 +12,8 @@ import SectionHeading from "../components/SectionHeading.jsx";
 import ProjectCard from "../components/ProjectCard.jsx";
 import ProjectSkeleton from "../components/ProjectSkeleton.jsx";
 import Testimonials from "../components/Testimonials.jsx";
+import Marquee from "../components/Marquee.jsx";
+import Process from "../components/Process.jsx";
 
 const t = transcript.home;
 
@@ -42,7 +44,8 @@ export default function Home() {
           { y: 30, autoAlpha: 0 },
           { y: 0, autoAlpha: 1, stagger: 0.18, duration: 1, clearProps: "transform,opacity,visibility" },
           "-=0.75"
-        );
+        )
+        .from(".hero-stats", { y: 24, autoAlpha: 0, duration: 1 }, "-=0.6");
     },
     { scope: hero }
   );
@@ -94,8 +97,21 @@ export default function Home() {
               {t.hero.ctaSecondary}
             </Link>
           </div>
+
+          <dl className="hero-stats mx-auto mt-16 grid max-w-2xl grid-cols-2 gap-6 sm:grid-cols-4">
+            {t.stats.map((s) => (
+              <div key={s.label}>
+                <dt className="font-display text-3xl font-bold gradient-text sm:text-4xl">
+                  {s.value}
+                </dt>
+                <dd className="mt-1 text-xs text-zinc-500 dark:text-muted">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
+
+      <Marquee />
 
       <section className="mx-auto max-w-6xl px-5 py-20">
         <Reveal>
@@ -152,6 +168,8 @@ export default function Home() {
           })}
         </div>
       </section>
+
+      <Process />
 
       <Testimonials />
 

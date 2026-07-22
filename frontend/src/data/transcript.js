@@ -31,13 +31,60 @@ export const transcript = {
       viewAll: "See all works",
       empty: "Featured projects are on their way. Check back soon.",
     },
+    stats: [
+      { value: "20+", label: "Projects shipped" },
+      { value: "3+", label: "Years building" },
+      { value: "12+", label: "Technologies" },
+      { value: "100%", label: "Commitment" },
+    ],
+    marquee: {
+      items: [
+        "React",
+        "JavaScript",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Tailwind CSS",
+        "Vite",
+        "REST APIs",
+        "WebSockets",
+        "Unity",
+        "Godot",
+        "UI / UX",
+      ],
+    },
     servicesStrip: {
       title: "What I do",
       subtitle: "Two crafts, one obsessive eye for detail.",
     },
+    process: {
+      title: "How I work",
+      subtitle: "A clear path from first idea to launch — no black boxes, no surprises.",
+      steps: [
+        {
+          title: "Discover",
+          text: "We talk goals, audience, and scope so the plan fits what you actually need.",
+        },
+        {
+          title: "Design",
+          text: "Wireframes and a polished UI that match your brand and feel right to use.",
+        },
+        {
+          title: "Build",
+          text: "Clean, tested code with smooth motion and performance baked in from day one.",
+        },
+        {
+          title: "Launch",
+          text: "Ship it, hand it over, and stay on call for whatever comes next.",
+        },
+      ],
+    },
     testimonials: {
       title: "Kind words",
       subtitle: "What clients and players say about working with the studio.",
+      prev: "Previous testimonial",
+      next: "Next testimonial",
+      goTo: "Go to testimonial",
       items: [
         {
           quote:
